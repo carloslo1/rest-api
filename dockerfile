@@ -17,7 +17,9 @@ RUN npm prune --production && node-prune
 FROM node:20-alpine3.18 AS release
 RUN apk add dumb-init
 
-COPY --from=builder /app/ ./
+USER node
+
+COPY --chown=node:node --from=builder /app/ ./
 
 ARG APP_ENV
 ENV APP_ENV=${APP_ENV}
