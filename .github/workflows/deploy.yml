@@ -13,19 +13,21 @@ jobs:
 
   test:
     name: Run tests
-    needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Run test
+      - uses: actions/checkout@v4 # Cambiado a v4 por consistencia
+      
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - run: npm install
       - run: npm run test
-      
+
+
   build-and-publish:
+    needs: test # Espera a que el trabajo 'test' sea exitoso
     runs-on: ubuntu-latest
     
     steps:
