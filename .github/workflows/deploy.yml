@@ -30,3 +30,5 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            APP_ENV=${{ secrets.APP_ENV }}
