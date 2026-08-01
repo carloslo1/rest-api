@@ -14,7 +14,7 @@ RUN npm install
 RUN npm prune --production && node-prune
 
 #----------------RELEASE-----------------
-FROM node:20-alpine3.18 AS release
+FROM node:26-alpine3.23 AS release
 RUN apk add dumb-init
 
 USER node
