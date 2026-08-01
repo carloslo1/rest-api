@@ -15,7 +15,7 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # Cambiado a v4 por consistencia
+      - uses: actions/checkout@v4 
       
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -27,7 +27,7 @@ jobs:
 
 
   build-and-publish:
-    needs: test # Espera a que el trabajo 'test' sea exitoso
+    needs: test
     runs-on: ubuntu-latest
     
     steps:
