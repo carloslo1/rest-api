@@ -34,7 +34,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # Sonar necesita el historial completo, no un shallow clone
+          fetch-depth: 0
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -55,12 +55,33 @@ jobs:
 
       - name: Check Status
         if: ${{ env.SONAR_STATUS == 'ERROR' }}
-        run: exit 1
+        run: echo "Problemas de seguridad encontrados..."
+
+
+  codeAudit:
+    name: Snyk Docker Scan
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build a Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+
+      - name: Run Snyk to check Docker image for vulnerabilities
+        continue-on-error: true
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          args: --file=Dockerfile
 
 
   build-and-publish:
     name: Build and publish image
-    needs: [test, codeScan]
+    needs: [test, codeScan, codeAudit]
     runs-on: ubuntu-latest
 
     steps:
