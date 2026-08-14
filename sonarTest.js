@@ -1,33 +1,30 @@
-var name = "John Doe"; // Issue: 'var' debe ser cambiada por 'let' or 'const'
-var age = 30; // Issue: 'var' debe ser cambiada por 'let' or 'const'
-var unusedVar = "This is never used"; // Issue: variable sin usar
+const name = "John Doe";
+const age = 30;
 
 function getUserName() {
-  var name = "Jane Doe"; // Issue: "shadows" la variable 'name'
-  return name;
+  const displayName = "Jane Doe";
+  return displayName;
 }
 
-function calculateAge(yearOfBirth) {
-  var currentYear = new Date().getFullYear();
+function calculateYearsSince(yearOfBirth) {
+  const currentYear = new Date().getFullYear();
   return currentYear - yearOfBirth;
 }
 
-// issue: codigo duplicado
-function calculateUserAge(user) {
-  var currentYear = new Date().getFullYear();
-  return currentYear - user.yearOfBirth;
+function calculateAge(yearOfBirth) {
+  return calculateYearsSince(yearOfBirth);
 }
 
-function unsafeFunction(userInput) {
-  // Issue: eval() introduce problemas de seguridad.
-  return eval(userInput);
+function calculateUserAge(user) {
+  return calculateYearsSince(user.yearOfBirth);
 }
 
 console.log(getUserName());
 console.log(calculateAge(1990));
 console.log(calculateUserAge({ yearOfBirth: 1990 }));
-console.log(unsafeFunction("2 + 2")); // Potencial problema de seguridad
 
 export default {
-  unsafeFunction,
+  calculateAge,
+  calculateUserAge,
+  getUserName,
 };
