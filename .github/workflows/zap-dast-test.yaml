@@ -9,9 +9,9 @@ env:
   IMAGE_NAME: rest_api
 
 jobs:
-  permissions:
-    issues: write
   dast:
+    permissions:
+    issues: write
     name: ZAP - DAST Test
     runs-on: ubuntu-latest
 
@@ -22,7 +22,7 @@ jobs:
       - name: run api
         run: |
           npm install
-          npm run dev
+          npm run dev&
 
       - name: ZAP Scan
         uses: zaproxy/action-api-scan@v0.10.0
