@@ -9,6 +9,8 @@ env:
   IMAGE_NAME: rest_api
 
 jobs:
+  permissions:
+    issues: write
   dast:
     name: ZAP - DAST Test
     runs-on: ubuntu-latest
